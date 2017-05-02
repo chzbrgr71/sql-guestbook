@@ -8933,16 +8933,16 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/chzbrgr71/Documents/Source/sqltest/sqltest.csproj",
+      "projectUniqueName": "/Users/chzbrgr71/Documents/Source/sql-guestbook/web/sqltest.csproj",
       "projectName": "sqltest",
-      "projectPath": "/Users/chzbrgr71/Documents/Source/sqltest/sqltest.csproj",
-      "outputPath": "/Users/chzbrgr71/Documents/Source/sqltest/obj/",
+      "projectPath": "/Users/chzbrgr71/Documents/Source/sql-guestbook/web/sqltest.csproj",
+      "outputPath": "/Users/chzbrgr71/Documents/Source/sql-guestbook/web/obj/",
       "projectStyle": "PackageReference",
       "originalTargetFrameworks": [
         "netcoreapp1.1"
       ],
       "files": {
-        "lib/netcoreapp1.1/sqltest.dll": "/Users/chzbrgr71/Documents/Source/sqltest/bin/placeholder/netcoreapp1.1/sqltest.dll"
+        "lib/netcoreapp1.1/sqltest.dll": "/Users/chzbrgr71/Documents/Source/sql-guestbook/web/bin/placeholder/netcoreapp1.1/sqltest.dll"
       },
       "frameworks": {
         "netcoreapp1.1": {

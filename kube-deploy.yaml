@@ -24,17 +24,17 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: core-sql
+  name: guestbook-db
 spec:
   template:
     metadata:
       labels:
-        app: core-sql
-        component: core-sql
+        app: guestbook-db
+        component: guestbook-db
     spec:
       containers:
-      - name: core-sql
-        image: microsoft/mssql-server-linux:ctp1-3
+      - name: guestbook-db
+        image: microsoft/mssql-server-linux
         env:
         - name: ACCEPT_EULA
           value: "Y"
@@ -48,22 +48,64 @@ spec:
         persistentVolumeClaim:
           claimName: sqldb-pv
       nodeSelector:
-        kubernetes.io/hostname: k8s-agent-7f49f70-2
+        kubernetes.io/hostname: k8s-agent-7f49f70-4
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: guestbook-web
+spec:
+  replicas: 4
+  template:
+    metadata:
+      labels:
+        run: guestbook-web
+        app: guestbook-web
+    spec:
+      containers:
+      - name: guestbook-web
+        image: chzbrgr71/guestbook-web
+        env:
+        - name: SQLSERVER
+          value: "10.0.31.81"
+        - name: SQL_ID
+          value: "sa"
+        - name: SQL_PWD
+          value: "Pass@word"
+        - name: ASPNETCORE_URLS
+          value: "http://+:5000"
+        ports:
+          - containerPort: 5000
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: core-sql
-    component: core-sql
-  name: core-sql
+    app: guestbook-db
+    component: guestbook-db
+  name: guestbook-db
+spec:
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 1433
+      targetPort: 1433
+      name: guestbook-db-port
+  selector:
+    app: guestbook-db
+    component: guestbook-db
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: guestbook-web
+  labels:
+    app: guestbook-web
 spec:
   type: LoadBalancer
   ports:
-    - protocol: TCP
-      port: 10023
-      targetPort: 1433
-      name: core-sql-port
+  - port: 80
+    targetPort: 5000
+    name: guestbook-web-port
   selector:
-    app: core-sql
-    component: core-sql
+    run: guestbook-web
