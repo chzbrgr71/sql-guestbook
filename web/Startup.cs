@@ -53,7 +53,7 @@ namespace sqltest
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
                             await context.Response.WriteAsync("<h1>Guestbook</h1><table>");
-                            await context.Response.WriteAsync("<tr><th>Date</th><th>Name</th><th>Email</th><th>Message</th></tr>");
+                            await context.Response.WriteAsync("<tr><th>Date</th><th>Name</th><th>Phone</th><th>Message</th></tr>");
                             while (reader.Read())
                             {
                                 String datetime = Convert.ToString(reader.GetDateTime(0));
