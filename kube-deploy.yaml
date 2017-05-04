@@ -67,7 +67,7 @@ spec:
         image: chzbrgr71/guestbook-web
         env:
         - name: SQLSERVER
-          value: "10.0.31.81"
+          value: "guestbook-db.default.svc.cluster.local,10433"
         - name: SQL_ID
           value: "sa"
         - name: SQL_PWD
@@ -85,10 +85,10 @@ metadata:
     component: guestbook-db
   name: guestbook-db
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - protocol: TCP
-      port: 1433
+      port: 10433
       targetPort: 1433
       name: guestbook-db-port
   selector:
