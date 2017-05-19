@@ -1,11 +1,13 @@
 # SQL Guestbook
 This is a simple SQL Server on Linux Docker example with a .NET Core web front-end.
 
+![Demo Overview](images/demo_graphic.jpg)
+
 ## Demo Pre-requisites
 
 This application combines Azure Functions with Twilio, Azure queues, and posts data to databases such as SQL Server on Linux. Kubernetes example provided. Below items must be setup in advance:
 
-* Twilio account
+* Twilio account and setup: [Azure webhook details here](https://www.twilio.com/docs/guides/serverless-webhooks-azure-functions-and-csharp#create-a-new-azure-function-app)
 * Azure storage queue
 * Azure Container Services Kubernetes cluster
 
