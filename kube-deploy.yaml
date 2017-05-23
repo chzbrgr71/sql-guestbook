@@ -6,7 +6,7 @@ metadata:
 provisioner: kubernetes.io/azure-disk
 parameters:
   skuName: Standard_LRS
-  location: westus
+  location: eastus
 ---
 apiVersion: "v1"
 kind: "PersistentVolumeClaim"
@@ -48,7 +48,7 @@ spec:
         persistentVolumeClaim:
           claimName: sqldb-pv
       nodeSelector:
-        kubernetes.io/hostname: k8s-agent-7f49f70-2
+        kubernetes.io/hostname: k8s-agent-93B47D90-1
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment

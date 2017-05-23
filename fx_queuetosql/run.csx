@@ -14,13 +14,13 @@ public static void Run(string myQueueItem, TraceWriter log)
     var smsName = "anonymous";
     var smsDate = DateTime.Now.ToString("MM\\/dd\\/yyyy h\\:mm tt");
 
-    // write values to SQL Server
-    var sqlserver_IP = "server_name,port";
+    // write values to SQL Azure
+    var sqlserver_IP = "briarsqlguestbook.database.windows.net";
     SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
     builder.DataSource = sqlserver_IP;
     builder.UserID = "sa";
     builder.Password = "yourpassword";
-    builder.InitialCatalog = "guestbook";
+    builder.InitialCatalog = "sql_guestbook";
 
     using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
     {
