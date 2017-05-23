@@ -31,6 +31,7 @@ namespace sqltest
             }
             // Gather environment variables
             string sqlserver_name = Environment.GetEnvironmentVariable("SQLSERVER");
+            string sql_db = Environment.GetEnvironmentVariable("SQL_DB");
             string sql_id = Environment.GetEnvironmentVariable("SQL_ID");
             string sql_pwd = Environment.GetEnvironmentVariable("SQL_PWD");
 
@@ -39,7 +40,7 @@ namespace sqltest
             builder.DataSource = sqlserver_name;
             builder.UserID = sql_id;
             builder.Password = sql_pwd;
-            builder.InitialCatalog = "guestbook";
+            builder.InitialCatalog = sql_db;
 
             app.Run(async (context) =>
             {
