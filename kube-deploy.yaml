@@ -64,7 +64,7 @@ spec:
     spec:
       containers:
       - name: guestbook-web
-        image: chzbrgr71/guestbook-web
+        image: chzbrgr71/guestbook-web:v3
         env:
         - name: SQLSERVER
           value: "guestbook-db.default.svc.cluster.local,10433"
@@ -73,7 +73,7 @@ spec:
         - name: SQL_PWD
           value: "Pass@word"
         - name: SQL_DB
-          value: "guestbook"
+          value: "sql_guestbook"
         - name: ASPNETCORE_URLS
           value: "http://+:5000"
         ports:

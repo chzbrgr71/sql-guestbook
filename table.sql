@@ -1,6 +1,6 @@
 CREATE DATABASE sql_guestbook;
 
-USE guestbook;
+USE sql_guestbook;
 
 CREATE TABLE guestlog (entrydate DATETIME, name NVARCHAR(30), phone NVARCHAR(30), message TEXT, sentiment_score NVARCHAR(30));
 
