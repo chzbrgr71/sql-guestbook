@@ -10,6 +10,7 @@ This application combines Azure Functions with Twilio, Azure queues, and posts d
 * Twilio account and setup: [Azure webhook details here](https://www.twilio.com/docs/guides/serverless-webhooks-azure-functions-and-csharp#create-a-new-azure-function-app)
 * Azure storage queue
 * Azure Container Services Kubernetes cluster
+* Cognitive Services Account
 
 ## Setup Instructions
 
@@ -27,6 +28,7 @@ This application combines Azure Functions with Twilio, Azure queues, and posts d
   * -e 'ACCEPT_EULA=Y' 
   * -e 'SA_PASSWORD=yourpassword' 
 
+* Create SQL DB "sql_guestbook"
 * Create SQL table (table.sql)
 
 ### Web
@@ -36,7 +38,6 @@ This application combines Azure Functions with Twilio, Azure queues, and posts d
 * Container listens on port 5000
 * Uses environment variables for SQL Server discovery: 
 
-  * -e "ASPNETCORE_URLS=http://+:5000" 
-  * -e "SQLSERVER=sql" 
-  * -e "SQL_ID=sa" 
-  * -e "SQL_PWD=yourpassword" 
+docker build -t repo/guestbook-web .
+
+docker run -d -e "ASPNETCORE_URLS=http://+:5000" -e "SQLSERVER=sql" -e "SQL_ID=sa" -e "SQL_PWD=yourpassword" -e "SQL_DB=sql_guestbook"  --name web -p 80:5000 repo/guestbook-web
