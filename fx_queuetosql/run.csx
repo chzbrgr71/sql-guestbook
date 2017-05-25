@@ -8,11 +8,11 @@ public static void Run(string myQueueItem, TraceWriter log)
     // parse queue message
     char[] delimiterChars = { '|' };
     string[] words = myQueueItem.Split(delimiterChars);
-    log.Info("{0} words in text");
     var smsFrom = words[0].Trim();
     var smsBody = words[1].Trim();
     var smsName = "anonymous";
     var smsDate = DateTime.Now.ToString("MM\\/dd\\/yyyy h\\:mm tt");
+    var score = words[2].Trim();
 
     // toggle output
     var writeToSQLAzure = System.Configuration.ConfigurationManager.AppSettings["TOGGLE_SQL_AZURE"];
@@ -31,7 +31,7 @@ public static void Run(string myQueueItem, TraceWriter log)
             using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
             {
                 connection.Open();
-                String sql = "INSERT INTO guestlog VALUES ('" + smsDate + "', '" + smsName + "', '" + smsFrom + "', '" + smsBody + "');";
+                String sql = "INSERT INTO guestlog VALUES ('" + smsDate + "', '" + smsName + "', '" + smsFrom + "', '" + smsBody + "', '" + score + "');";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     var rows = command.ExecuteNonQuery();
@@ -52,7 +52,7 @@ public static void Run(string myQueueItem, TraceWriter log)
             using (SqlConnection connection2 = new SqlConnection(builder2.ConnectionString))
             {
                 connection2.Open();
-                String sql = "INSERT INTO guestlog VALUES ('" + smsDate + "', '" + smsName + "', '" + smsFrom + "', '" + smsBody + "');";
+                String sql = "INSERT INTO guestlog VALUES ('" + smsDate + "', '" + smsName + "', '" + smsFrom + "', '" + smsBody + "', '" + score + "');";
                 using (SqlCommand command2 = new SqlCommand(sql, connection2))
                 {
                     var rows2 = command2.ExecuteNonQuery();
