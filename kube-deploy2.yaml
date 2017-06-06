@@ -47,6 +47,8 @@ spec:
       - name: sqldb-home
         persistentVolumeClaim:
           claimName: sqldb-pv
+      nodeSelector:
+        kubernetes.io/hostname: k8s-agent-93B47D90-1
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
