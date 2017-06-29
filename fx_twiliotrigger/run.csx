@@ -25,7 +25,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, IAsync
     var score = await GetSentimentScore(smsBody);
 
     // Check for profanity
-    string cognitiveUri = "https://westus.api.cognitive.microsoft.com/contentmoderator/moderate/v1.0/ProcessText/Screen/?language=eng&autocorrect=true";
+    string cognitiveUri = "https://westus.api.cognitive.microsoft.com/contentmoderator/moderate/v1.0/ProcessText/Screen/?language=eng&autocorrect=true";    
     using (var client = new HttpClient())
     {
         client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", "44c0a105aa4345c795b534321331adf4");
@@ -40,7 +40,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, IAsync
             }
             else
             {
-                smsBody = "User is not being nice";
+                smsBody = "*** MESSAGE REDACTED DUE TO BAD LANGUAGE ***";
             }
         }
     }
