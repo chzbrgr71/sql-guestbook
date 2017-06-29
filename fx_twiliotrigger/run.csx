@@ -1,5 +1,9 @@
+using System;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
+using System.Web;
 using Twilio.TwiML;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -20,9 +24,33 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, IAsync
     // Get sentiment score for post
     var score = await GetSentimentScore(smsBody);
 
-    // write values to Azure queue
+    // Check for profanity
+    string cognitiveUri = "https://westus.api.cognitive.microsoft.com/contentmoderator/moderate/v1.0/ProcessText/Screen/?language=eng&autocorrect=true";
+    using (var client = new HttpClient())
+    {
+        client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", "44c0a105aa4345c795b534321331adf4");
+        using (var cogresponse = await client.PostAsync(cognitiveUri, new StringContent(smsBody, Encoding.UTF8, "text/plain")))
+        {
+            //log.Info(cogresponse.ToString());
+            var responseContent = await cogresponse.Content.ReadAsStringAsync();
+            //log.Info(responseContent.IndexOf("\"Terms\":null").ToString());
+            if(responseContent.IndexOf("\"Terms\":null")!=-1)
+            {
+                log.Info("No profanity");
+            }
+            else
+            {
+                smsBody = "User is not being nice";
+            }
+        }
+    }
+
+    // Build message for Queue
     var queueMessage = smsFrom + "|" + smsBody + "|" + score;
+
     log.Info("Writing to queue: " + queueMessage);
+
+    // write values to Azure queue
     await outputGuestbookItem.AddAsync(queueMessage);
 
     // create SMS response to sender
@@ -39,11 +67,11 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, IAsync
 public async static Task<float> GetSentimentScore(string text)
 {
     var document = JsonConvert.SerializeObject(new { documents = new[] { new { language = "en", id = 1, text = text } } });
-    string sentimentUri = "<https://your_url_here/text/analytics/v2.0/sentiment>";
+    string sentimentUri = "https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment";
 
     using (var client = new HttpClient())
     {
-        client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", "<your_key_here>");
+        client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", "34c2a041fbd5455d9e4447aed129c51e");
         using (var response = await client.PostAsync(sentimentUri, new StringContent(document, Encoding.UTF8, "application/json")))
         {
             JObject result = await response.Content.ReadAsAsync<JObject>();
