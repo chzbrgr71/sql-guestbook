@@ -1,0 +1,42 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: go-guestbook
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: go-guestbook
+        app: go-guestbook
+    spec:
+      containers:
+      - name: go-guestbook
+        image: chzbrgr71/go-guestbook
+        env:
+        - name: SQLSERVER
+          value: "briarsqlguestbook.database.windows.net"
+        - name: SQL_ID
+          value: "briar"
+        - name: SQL_PWD
+          value: "Pass@word"
+        ports:
+          - containerPort: 8001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: go-guestbook
+    component: go-guestbook
+  name: go-guestbook
+spec:
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8001
+      targetPort: 8001
+      name: go-guestbook-port
+  selector:
+    app: go-guestbook
+    component: go-guestbook
