@@ -29,7 +29,7 @@ spec:
         image: chzbrgr71/go-guestbook:3
         env:
         - name: SQLSERVER
-          value: "23.99.10.5"
+          value: "guestbook-db.default.svc.cluster.local"
         - name: SQLPORT
           value: "10433"
         - name: SQLID
