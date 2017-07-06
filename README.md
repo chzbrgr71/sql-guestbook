@@ -18,10 +18,11 @@ This application combines Azure Functions with Twilio, Azure queues, Cognitive S
 
 * Twilio trigger -> Azure Queue (fx_queuetrigger)
   * Configure Azure Cognitive Text Analytics API
+  * Configure Azure Cognitive Services Content Moderator
   * Provide URL and key in code (need to add to environment varible)
 * Azure Queue -> SQL Databases (fx_queuetosql)
   * Parses data from queue
-  * Writes to SQL Azure, SQL on Linux, or CosmosDB depending on toggle flags in environment variables
+  * Writes to SQL Azure or SQL on Linux depending on toggle flags in environment variables
     * SQL_AZURE_IP
     * SQL_AZURE_ID
     * SQL_AZURE_PWD
@@ -32,8 +33,6 @@ This application combines Azure Functions with Twilio, Azure queues, Cognitive S
     * K8S_SQL_DB
     * TOGGLE_SQL_AZURE
     * TOGGLE_K8S_SQL
-    * TOGGLE_COSMOS_DB
-  * Plan to add code for CosmosDB in the future
 
 ### Web
 
@@ -61,6 +60,6 @@ kubectl create -f kube-deploy.yaml
 * Create SQL DB "sql_guestbook"
 * Create SQL table (table.sql)
 
-### CosmosDB
+### Go web app
 
-* Coming soon
+* Image: chzbrgr71/go-guestbook
