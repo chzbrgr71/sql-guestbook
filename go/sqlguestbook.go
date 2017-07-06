@@ -3,9 +3,10 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
+
+	"log"
 
 	_ "github.com/denisenkom/go-mssqldb"
 )
