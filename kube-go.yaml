@@ -15,13 +15,15 @@ spec:
         image: chzbrgr71/go-guestbook
         env:
         - name: SQLSERVER
-          value: "briarsqlguestbook.database.windows.net"
-        - name: SQL_ID
-          value: "briar"
-        - name: SQL_PWD
+          value: "guestbook-db.default.svc.cluster.local"
+        - name: SQLPORT
+          value: "10433"
+        - name: SQLID
+          value: "sa"
+        - name: SQLPWD
           value: "Pass@word"
-        ports:
-          - containerPort: 8001
+        - name: SQLDB
+          value: "sql_guestbook"
 ---
 apiVersion: v1
 kind: Service
@@ -33,10 +35,9 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-    - protocol: TCP
-      port: 8001
-      targetPort: 8001
-      name: go-guestbook-port
+  - port: 80
+    targetPort: 8001
+    name: go-guestbook-port
   selector:
     app: go-guestbook
     component: go-guestbook

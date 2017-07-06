@@ -6,7 +6,7 @@ metadata:
 provisioner: kubernetes.io/azure-disk
 parameters:
   skuName: Standard_LRS
-  location: eastus
+  location: westus
 ---
 apiVersion: "v1"
 kind: "PersistentVolumeClaim"

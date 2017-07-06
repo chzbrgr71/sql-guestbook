@@ -24,9 +24,10 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	// gather values
 	var hostname = getHostname()
 	var appversion = "1.0"
-	var sqlserver = "briarsqlguestbook.database.windows.net"
-	var sqlid = "briar"
-	var sqlpwd = "Pass@word"
+	// need code to handle empty envvars
+	var sqlserver = os.Getenv("SQLSERVER")
+	var sqlid = os.Getenv("SQL_ID")
+	var sqlpwd = os.Getenv("SQL_PWD")
 	var connString = "server=" + sqlserver + ";user id=" + sqlid + ";password=" + sqlpwd + ";database=sql_guestbook;connection timeout=30"
 
 	fmt.Fprintf(w, "<!DOCTYPE html><html><head><style>table {font-family: arial, sans-serif;border-collapse: collapse;width: 100%;}td, th {border: 1px solid #dddddd;text-align: left;padding: 8px;}tr:nth-child(even) {background-color: #dddddd;}</style></head><body>")
