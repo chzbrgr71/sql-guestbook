@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
 
@@ -24,8 +25,9 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	var htmlHeader = "<!DOCTYPE html><html><head><style>table {font-family: arial, sans-serif;border-collapse: collapse;width: 100%;}td, th {border: 1px solid #dddddd;text-align: left;padding: 8px;}tr:nth-child(even) {background-color: #dddddd;}</style></head><body>"
 	fmt.Fprintf(w, htmlHeader)
 	var hostname = getHostname()
-	var appversion = "1.0"
-	fmt.Fprintf(w, "<h1>Golang Guestbook (v%s)</h1><p>Hostname: %s</p><table><tr><th>Date</th><th>Name</th><th>Phone</th><th>Sentiment</th><th>Message</th></tr>", appversion, hostname)
+	var gitSHA = os.Getenv("GIT_SHA")
+	var appversion = "1.9.9"
+	fmt.Fprintf(w, "<h1>Golang Guestbook (v%s)</h1><p>Hostname: %s</p><p>Git: %s</p><table><tr><th>Date</th><th>Name</th><th>Phone</th><th>Sentiment</th><th>Message</th></tr>", appversion, hostname, gitSHA)
 
 	// query DB and loop through rows
 	var connString = getConnectString()
@@ -53,9 +55,18 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "</table>")
 }
 
+// HealthCheckHandler e.g. http.HandleFunc("/health-check", HealthCheckHandler)
+func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
+	// A very simple health check.
+	//w.WriteHeader(http.StatusUnauthorized)
+	w.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "application/json")
+	io.WriteString(w, `{"alive": true}`)
+}
+
 func main() {
 	http.HandleFunc("/", indexHandler)
-	http.ListenAndServe(":8001", nil)
+	http.ListenAndServe(":8080", nil)
 }
 
 func getHostname() string {
