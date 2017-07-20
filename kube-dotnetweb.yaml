@@ -1,59 +1,9 @@
----
-kind: StorageClass
-apiVersion: storage.k8s.io/v1beta1
-metadata:
-  name: azure-disk
-provisioner: kubernetes.io/azure-disk
-parameters:
-  skuName: Standard_LRS
-  location: eastus
----
-apiVersion: "v1"
-kind: "PersistentVolumeClaim"
-metadata:
-  name: "sqldb-pv"
-  annotations:
-    volume.beta.kubernetes.io/storage-class: "azure-disk"
-spec:
-  accessModes:
-    - "ReadWriteOnce"
-  resources:
-    requests:
-      storage: "10Gi"
----
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: guestbook-db
-spec:
-  template:
-    metadata:
-      labels:
-        app: guestbook-db
-        component: guestbook-db
-    spec:
-      containers:
-      - name: guestbook-db
-        image: microsoft/mssql-server-linux
-        env:
-        - name: ACCEPT_EULA
-          value: "Y"
-        - name: SA_PASSWORD
-          value: yourpassword
-        volumeMounts:
-        - mountPath: /var/opt/mssql
-          name: sqldb-home
-      volumes:
-      - name: sqldb-home
-        persistentVolumeClaim:
-          claimName: sqldb-pv
----
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: guestbook-web
 spec:
-  replicas: 4
+  replicas: 3
   template:
     metadata:
       labels:
@@ -62,38 +12,20 @@ spec:
     spec:
       containers:
       - name: guestbook-web
-        image: chzbrgr71/guestbook-web:v3
+        image: chzbrgr71/guestbook-web:dotnet
         env:
         - name: SQLSERVER
           value: "guestbook-db.default.svc.cluster.local,10433"
         - name: SQL_ID
           value: "sa"
         - name: SQL_PWD
-          value: "yourpassword"
+          value: "Your@Password"
         - name: SQL_DB
           value: "sql_guestbook"
         - name: ASPNETCORE_URLS
           value: "http://+:5000"
         ports:
           - containerPort: 5000
----
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: guestbook-db
-    component: guestbook-db
-  name: guestbook-db
-spec:
-  type: LoadBalancer
-  ports:
-    - protocol: TCP
-      port: 10433
-      targetPort: 1433
-      name: guestbook-db-port
-  selector:
-    app: guestbook-db
-    component: guestbook-db
 ---
 apiVersion: v1
 kind: Service

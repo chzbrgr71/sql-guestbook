@@ -48,7 +48,7 @@ namespace sqltest
                 {
                     await context.Response.WriteAsync("<!DOCTYPE html><html><head><style>table {font-family: arial, sans-serif;border-collapse: collapse;width: 100%;}td, th {border: 1px solid #dddddd;text-align: left;padding: 8px;}tr:nth-child(even) {background-color: #dddddd;}</style></head><body>");
                     connection.Open();
-                    String sql = "SELECT * FROM guestlog";
+                    String sql = "select * from guestlog order by entrydate DESC";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         using (SqlDataReader reader = command.ExecuteReader())

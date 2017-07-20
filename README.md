@@ -8,7 +8,7 @@ This is a simple SQL Server on Linux Docker example with a .NET Core web front-e
 This application combines Azure Functions with Twilio, Azure queues, Cognitive Services and posts data to databases such as SQL Server on Linux. Kubernetes example provided. Below items must be setup in advance:
 
 * Twilio account and setup: [Azure webhook details here](https://www.twilio.com/docs/guides/serverless-webhooks-azure-functions-and-csharp#create-a-new-azure-function-app)
-* Azure storage queue
+* Azure Storage Queue
 * Azure Container Services Kubernetes cluster
 * Cognitive Services Account
 
@@ -36,35 +36,38 @@ This application combines Azure Functions with Twilio, Azure queues, Cognitive S
 
 ### Kubernetes deployments
 
-* Secret for ACR
-* Database
-* Go Web App
-* .NET Web App
+#### Database
+
+- Image: microsoft/mssql-server-linux
+- Kuberenetes example stores databases on Persistent Volume (Azure VHD)
+
+```
+kubectl create -f kube-db.yaml
+```
+
+- Create SQL DB sql_guestbook. Suggest connecting to SQL with sqlcmd CLI tool.
+
+```
+CREATE DATABASE sql_guestbook;
+```
+
+- Create SQL table and add seed value
+
+```
+USE sql_guestbook;
+CREATE TABLE guestlog (entrydate DATETIME, name NVARCHAR(30), phone NVARCHAR(30), message TEXT, sentiment_score NVARCHAR(30));
+INSERT INTO guestlog VALUES ('2017-4-15 23:59:59', 'anonymous', '19192310925', 'That rug really tied the room together', '0.6625549');
+```
+
+
+#### .NET Web App
 
 * Simple .NET web app that displays guestbook entries
 * Build using provided Dockerfile
-* Can run container in App Services and/or ACS Kubernetes
-* Container listens on port 5000
-* Uses environment variables for SQL Server discovery: 
+* Uses environment variables for SQL Server discovery
 
-```
-docker build -t repo/guestbook-web .
 
-docker run -d -e "ASPNETCORE_URLS=http://+:5000" -e "SQLSERVER=sql" -e "SQL_ID=sa" -e "SQL_PWD=yourpassword" -e "SQL_DB=sql_guestbook"  --name web -p 80:5000 repo/guestbook-web
+#### Go Web App
 
-kubectl create -f kube-deploy.yaml
-```
+* Go version of the same web app
 
-### SQL Server
-
-* Image: microsoft/mssql-server-linux
-* Kuberenetes example stores databases on Persistent Volume (Azure VHD)
-* Environment variables needed:   
-  * -e 'ACCEPT_EULA=Y' 
-  * -e 'SA_PASSWORD=yourpassword' 
-* Create SQL DB "sql_guestbook"
-* Create SQL table (table.sql)
-
-### Go web app
-
-* Image: chzbrgr71/go-guestbook
