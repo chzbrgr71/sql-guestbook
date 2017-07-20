@@ -85,7 +85,7 @@ func getConnectString() string {
 
 	var sqlserver = os.Getenv("SQLSERVER")
 	if sqlserver == "" {
-		sqlserver = "ip.address"
+		sqlserver = "replace.me.sql.server.name"
 	}
 	var sqlport = os.Getenv("SQLPORT")
 	if sqlport == "" {
@@ -97,7 +97,7 @@ func getConnectString() string {
 	}
 	var sqlpwd = os.Getenv("SQLPWD")
 	if sqlpwd == "" {
-		sqlpwd = "yourpassword"
+		sqlpwd = "Your@Password"
 	}
 	var sqldb = os.Getenv("SQLDB")
 	if sqldb == "" {

@@ -62,7 +62,7 @@ INSERT INTO guestlog VALUES ('2017-4-15 23:59:59', 'anonymous', '19192310925', '
 #### .NET Web App
 
 * Simple .NET web app that displays guestbook entries
-* Build using provided Dockerfile
+* These web apps are in my Docker Hub account, but I suggest rebuilding using the included Dockerfiles and updating to your repo or hub
 * Uses environment variables for SQL Server discovery
 
 ```

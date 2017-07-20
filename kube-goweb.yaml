@@ -1,17 +1,17 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: go-web
+  name: guestbook-go-web
 spec:
   replicas: 3
   template:
     metadata:
       labels:
-        run: go-web
-        app: go-web
+        run: guestbook-go-web
+        app: guestbook-go-web
     spec:
       containers:
-      - name: go-web
+      - name: guestbook-go-web
         image: chzbrgr71/guestbook-web:go
         env:
         - name: SQLSERVER
@@ -30,13 +30,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: go-web
+  name: guestbook-go-web
   labels:
-    app: go-web
+    app: guestbook-go-web
 spec:
   type: LoadBalancer
   ports:
   - port: 80
     targetPort: 8080
   selector:
-    run: go-web
+    run: guestbook-go-web
