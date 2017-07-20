@@ -39,7 +39,7 @@ spec:
         - name: ACCEPT_EULA
           value: "Y"
         - name: SA_PASSWORD
-          value: Pass@word
+          value: yourpassword
         volumeMounts:
         - mountPath: /var/opt/mssql
           name: sqldb-home
@@ -69,7 +69,7 @@ spec:
         - name: SQL_ID
           value: "sa"
         - name: SQL_PWD
-          value: "Pass@word"
+          value: "yourpassword"
         - name: SQL_DB
           value: "sql_guestbook"
         - name: ASPNETCORE_URLS

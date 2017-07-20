@@ -1,2 +1,0 @@
-docker build -t chzbrgr71/go-guestbook:3 .
-docker run -d -e "SQLSERVER=23.99.10.5" -e "SQLPORT=10433" -e "SQLID=sa" -e "SQLPWD=Pass@word" -e "SQLDB=sql_guestbook" --name web -p 80:8001 chzbrgr71/go-guestbook:3

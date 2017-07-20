@@ -26,8 +26,8 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, htmlHeader)
 	var hostname = getHostname()
 	var gitSHA = os.Getenv("GIT_SHA")
-	var appversion = "1.9.9"
-	fmt.Fprintf(w, "<h1>Golang Guestbook (v%s)</h1><p>Hostname: %s</p><p>Git: %s</p><table><tr><th>Date</th><th>Name</th><th>Phone</th><th>Sentiment</th><th>Message</th></tr>", appversion, hostname, gitSHA)
+	var appversion = "1.9.5"
+	fmt.Fprintf(w, "<h1>Msft Ready Golang Guestbook (v%s)</h1><p>Hostname: %s</p><p>Git: %s</p><table><tr><th>Date</th><th>Name</th><th>Phone</th><th>Sentiment</th><th>Message</th></tr>", appversion, hostname, gitSHA)
 
 	// query DB and loop through rows
 	var connString = getConnectString()
@@ -37,7 +37,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer conn.Close()
 
-	rows, err := conn.Query("SELECT * FROM guestlog")
+	rows, err := conn.Query("select * from guestlog order by entrydate DESC")
 	if err != nil {
 		log.Fatal("Cannot query: ", err.Error())
 		return
@@ -86,7 +86,7 @@ func getConnectString() string {
 
 	var sqlserver = os.Getenv("SQLSERVER")
 	if sqlserver == "" {
-		sqlserver = "23.99.10.5"
+		sqlserver = "ip.address"
 	}
 	var sqlport = os.Getenv("SQLPORT")
 	if sqlport == "" {
@@ -98,7 +98,7 @@ func getConnectString() string {
 	}
 	var sqlpwd = os.Getenv("SQLPWD")
 	if sqlpwd == "" {
-		sqlpwd = "Pass@word"
+		sqlpwd = "yourpassword"
 	}
 	var sqldb = os.Getenv("SQLDB")
 	if sqldb == "" {
