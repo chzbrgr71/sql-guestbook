@@ -34,7 +34,12 @@ This application combines Azure Functions with Twilio, Azure queues, Cognitive S
     * TOGGLE_SQL_AZURE
     * TOGGLE_K8S_SQL
 
-### Web
+### Kubernetes deployments
+
+* Secret for ACR
+* Database
+* Go Web App
+* .NET Web App
 
 * Simple .NET web app that displays guestbook entries
 * Build using provided Dockerfile
