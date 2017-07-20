@@ -45,7 +45,7 @@ This application combines Azure Functions with Twilio, Azure queues, Cognitive S
 kubectl create -f kube-db.yaml
 ```
 
-- Create SQL DB sql_guestbook. Suggest connecting to SQL with sqlcmd CLI tool.
+- Create SQL DB sql_guestbook. Suggest connecting to SQL with [sqlcmd](https://blogs.technet.microsoft.com/dataplatforminsider/2017/04/03/sql-server-command-line-tools-for-mac-preview-now-available) CLI tool.
 
 ```
 CREATE DATABASE sql_guestbook;
@@ -59,15 +59,20 @@ CREATE TABLE guestlog (entrydate DATETIME, name NVARCHAR(30), phone NVARCHAR(30)
 INSERT INTO guestlog VALUES ('2017-4-15 23:59:59', 'anonymous', '19192310925', 'That rug really tied the room together', '0.6625549');
 ```
 
-
 #### .NET Web App
 
 * Simple .NET web app that displays guestbook entries
 * Build using provided Dockerfile
 * Uses environment variables for SQL Server discovery
 
+```
+kubectl create -f kube-dotnetweb.yaml
+```
 
 #### Go Web App
 
 * Go version of the same web app
 
+```
+kubectl create -f kube-goweb.yaml
+```
